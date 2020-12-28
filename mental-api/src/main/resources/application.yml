@@ -1,0 +1,18 @@
+#server.port: 9797
+spring:
+  datasource:
+    url: "jdbc:postgresql://193.122.123.101:5432/mentaldiary"
+    username: postgres
+    password: postgres@
+    hikari.maximum-pool-size: 4
+    sql-script-encoding: utf-8
+    platform: postgresql
+  jpa:
+    hibernate:  
+        ddl-auto: none
+        use-new-id-generator-mappings: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.default_schema: public
+      hibernate.format_sql: true
+      hibernate.show_sql: true
