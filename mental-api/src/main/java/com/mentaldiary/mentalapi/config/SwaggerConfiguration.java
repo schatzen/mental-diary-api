@@ -22,7 +22,7 @@ public class SwaggerConfiguration {
     @Bean
     public Docket apiV1() {
         version = "V1";
-        title = "Mental Diary Diary " + version;
+        title = "Mental Diary " + version;
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
