@@ -1,10 +1,13 @@
 package com.mentaldiary.mentalapi.v1.user.service;
 
 import com.mentaldiary.mentalapi.entity.User;
+import com.mentaldiary.mentalapi.exception.SignExeption;
 import com.mentaldiary.mentalapi.respository.UserRepo;
+import com.mentaldiary.mentalapi.utils.ModelMapperUtil;
 import com.mentaldiary.mentalapi.v1.response.service.ResponseService;
 import com.mentaldiary.mentalapi.v1.response.vo.SingleResult;
 import com.mentaldiary.mentalapi.v1.user.vo.SignUpVO;
+import com.mentaldiary.mentalapi.v1.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class UserService {
 
     private final UserRepo userRepo;
+
+
 
     // 회원가입
     public void signUp(SignUpVO vo) {
@@ -46,5 +51,22 @@ public class UserService {
     public User checkDuplicatedEmail(String email) {
         User user = userRepo.findByEmail(email).orElse(null);
         return user;
+    }
+
+    public UserVO signIn(SignUpVO signUpV0) throws Exception {
+
+        User user = userRepo.findByEmail(signUpV0.getEmail()).orElse(null);
+
+        if (null == user) {
+            throw new SignExeption("존재하지 않는 이메일 입니다.");
+        }
+
+        if (!user.getPassword().matches(signUpV0.getPassword())) {
+            throw new SignExeption("잘못된 비밀번호입니다.");
+        }
+
+        UserVO userVO = ModelMapperUtil.getModelMapper().map(user, UserVO.class);
+
+        return userVO;
     }
 }
