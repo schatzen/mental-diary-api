@@ -19,7 +19,7 @@ public class SignUpVO {
 
     @ApiModelProperty(value = "생일", required = true)
     @NotBlank(message = "생일을 입력해주세요.")
-    @Pattern(regexp = "([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))", message = "6자리의 숫자만 입력가능합니다")
+    @Pattern(regexp = "^(19[0-9][0-9]|20\\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$", message = "유효한 생년월일을 입력해주세요.")
     public String birthdate;
 
     @ApiModelProperty(value = "성별 (0:남자, 1:여자)", required = true)
