@@ -1,19 +1,17 @@
 package com.mentaldiary.mentalapi.v1.user.service;
 
 import com.mentaldiary.mentalapi.entity.User;
-import com.mentaldiary.mentalapi.exception.SignExeption;
+import com.mentaldiary.mentalapi.advice.exception.SignExeption;
 import com.mentaldiary.mentalapi.respository.UserRepo;
 import com.mentaldiary.mentalapi.utils.ModelMapperUtil;
-import com.mentaldiary.mentalapi.v1.response.service.ResponseService;
-import com.mentaldiary.mentalapi.v1.response.vo.SingleResult;
 import com.mentaldiary.mentalapi.v1.user.vo.SignUpVO;
 import com.mentaldiary.mentalapi.v1.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,17 +22,17 @@ public class UserService {
     private final UserRepo userRepo;
 
 
-
     // 회원가입
     public void signUp(SignUpVO vo) {
-        User user = User.builder()
+        userRepo.save(User.builder()
                 .email(vo.getEmail())
                 .password(vo.getPassword())
                 .birthdate(vo.getBirthdate())
-                .gender(vo.getGender()).build();
-
-        user = userRepo.save(user);
+                .gender(vo.getGender())
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build());
     }
+
 
     // 유효성 체크 메소드
     public Map<String, String> validateHandling(Errors errors) {
@@ -53,7 +51,7 @@ public class UserService {
         return user;
     }
 
-    public UserVO signIn(SignUpVO signUpV0) throws Exception {
+    public User signIn(SignUpVO signUpV0) throws Exception {
 
         User user = userRepo.findByEmail(signUpV0.getEmail()).orElse(null);
 
@@ -65,8 +63,8 @@ public class UserService {
             throw new SignExeption("잘못된 비밀번호입니다.");
         }
 
-        UserVO userVO = ModelMapperUtil.getModelMapper().map(user, UserVO.class);
+        //UserVO userVO = ModelMapperUtil.getModelMapper().map(user, UserVO.class);
 
-        return userVO;
+        return user;
     }
 }

@@ -1,22 +1,17 @@
 package com.mentaldiary.mentalapi.v1.user.controller;
 
 import com.mentaldiary.mentalapi.entity.User;
-import com.mentaldiary.mentalapi.exception.SignExeption;
+import com.mentaldiary.mentalapi.advice.exception.SignExeption;
+import com.mentaldiary.mentalapi.security.JwtTokenProvider;
 import com.mentaldiary.mentalapi.v1.response.service.ResponseService;
 import com.mentaldiary.mentalapi.v1.response.vo.CommonResult;
 import com.mentaldiary.mentalapi.v1.response.vo.ErrorResult;
-import com.mentaldiary.mentalapi.v1.response.vo.SingleResult;
 import com.mentaldiary.mentalapi.v1.user.service.UserService;
 import com.mentaldiary.mentalapi.v1.user.vo.SignUpVO;
 import com.mentaldiary.mentalapi.v1.user.vo.UserVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +27,7 @@ public class UserController {
 
     private final UserService userService;
     private final ResponseService responseService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 로그인
     @PostMapping(value = "/signIn")
@@ -39,15 +35,15 @@ public class UserController {
     public CommonResult login(@ApiParam(value = "필수값 : email, pwssword", required = false)
                               @RequestBody SignUpVO signUpV0) throws Exception {
 
-        UserVO userVo;
+        User user;
 
         try {
-            userVo = userService.signIn(signUpV0);
+            user = userService.signIn(signUpV0);
         } catch (SignExeption e) {
-            return responseService.getFailResult(-1,e.getMessage());
+            return responseService.getFailResult(-1, e.getMessage());
         }
 
-        return responseService.getSuccessResult();
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getUserIdx()),user.getEmail(),user.getRoles()));
     }
 
     @PostMapping(value = "/signUp")
@@ -74,6 +70,9 @@ public class UserController {
     }
 
     @GetMapping
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
     @ApiOperation(value = "이메일 중복확인", notes = "이미 가입된 이메일이 있는지 확인합니다.")
     public CommonResult checkDuplicatedEmail(@ApiParam(value = "이메일", required = true)
                                              @RequestParam String email) {

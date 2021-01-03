@@ -1,6 +1,6 @@
-package com.mentaldiary.mentalapi.exception;
+package com.mentaldiary.mentalapi.advice.exception;
 
-public class SignExeption extends Exception {
+public class SignExeption extends RuntimeException{
 
 
     // 로그인 시 발생하는 에러

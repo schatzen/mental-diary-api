@@ -1,5 +1,9 @@
+
+
 #server.port: 9090
 spring:
+  jwt:
+    secret: gomieti2021@
   datasource:
     url: "jdbc:postgresql://193.122.123.101:5432/mentaldiary"
     username: postgres
