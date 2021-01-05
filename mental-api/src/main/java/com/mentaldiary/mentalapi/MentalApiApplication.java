@@ -4,13 +4,8 @@ import com.mentaldiary.mentalapi.config.GracefulShutdown;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-<<<<<<< HEAD
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-=======
 
->>>>>>> 0f239474f85a6198bf15def7a46ef7ce9927e24f
 
 @SpringBootApplication
 @EnableJpaAuditing
