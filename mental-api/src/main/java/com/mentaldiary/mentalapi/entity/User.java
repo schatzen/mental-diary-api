@@ -1,6 +1,8 @@
 package com.mentaldiary.mentalapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mentaldiary.mentalapi.entity.common.CommonDateEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,12 +20,13 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@SequenceGenerator(name = "USER_IDX_GEN", sequenceName = "USER_IDX_SEQ", initialValue = 1, allocationSize = 1)
-public class User implements UserDetails {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class User extends CommonDateEntity implements UserDetails {
 
     @Id
+    @SequenceGenerator(name = "USER_IDX_GEN", sequenceName = "USER_IDX_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_IDX_GEN")
-    private Long userIdx;
+    private Long id;
 
     @Column(nullable = false)
     private String email;

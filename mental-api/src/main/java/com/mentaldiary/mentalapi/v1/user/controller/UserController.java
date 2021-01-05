@@ -43,7 +43,7 @@ public class UserController {
             return responseService.getFailResult(-1, e.getMessage());
         }
 
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getUserIdx()),user.getEmail(),user.getRoles()));
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()),user.getEmail(),user.getRoles()));
     }
 
     @PostMapping(value = "/signUp")
