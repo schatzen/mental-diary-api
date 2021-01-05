@@ -26,6 +26,7 @@ public class User extends CommonDateEntity implements UserDetails {
     @Id
     @SequenceGenerator(name = "USER_IDX_GEN", sequenceName = "USER_IDX_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_IDX_GEN")
+    @Column(name="user_idx")
     private Long id;
 
     @Column(nullable = false)

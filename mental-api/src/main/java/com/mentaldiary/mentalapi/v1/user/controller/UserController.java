@@ -70,9 +70,6 @@ public class UserController {
     }
 
     @GetMapping
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ApiOperation(value = "이메일 중복확인", notes = "이미 가입된 이메일이 있는지 확인합니다.")
     public CommonResult checkDuplicatedEmail(@ApiParam(value = "이메일", required = true)
                                              @RequestParam String email) {
