@@ -7,7 +7,7 @@ spring:
   datasource:
     url: "jdbc:postgresql://193.122.123.101:5432/mentaldiary"
     username: postgres
-    password: postgres@
+    password: postgres
     hikari.maximum-pool-size: 4
     sql-script-encoding: utf-8
     platform: postgresql
