@@ -16,6 +16,7 @@ public class Post extends CommonDateEntity {
     @Id
     @SequenceGenerator(name = "POST_IDX_GEN", sequenceName = "POST_IDX_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_IDX_GEN")
+    @Column(name = "post_idx")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +44,6 @@ public class Post extends CommonDateEntity {
         this.category = category;
         this.content = content;
     }
-
 
 
     // 수정시 데이터 처리
