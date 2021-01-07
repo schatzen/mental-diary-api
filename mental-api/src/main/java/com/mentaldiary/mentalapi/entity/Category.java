@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Category {
 
     @Id
@@ -19,5 +18,7 @@ public class Category {
     private Long id;
 
     private String name;
+
+    private String desciption;
 
 }
