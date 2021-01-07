@@ -58,7 +58,7 @@ public class PostController {
 
     // 카테고리변 전체 게시글 조회
     @GetMapping(value = "/{categoryName}/list")
-    @ApiOperation(value = "전체 시글 조회", notes = "해당 카테고리의 모든 글을 조회합니다.")
+    @ApiOperation(value = "전체 게시글 조회", notes = "해당 카테고리의 모든 글을 조회합니다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
