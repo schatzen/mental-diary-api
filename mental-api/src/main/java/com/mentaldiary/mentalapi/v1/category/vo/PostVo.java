@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class PostVo {
 
-    @ApiModelProperty(value = "내용", required = true)
-    private String content;
+
+    public Long id;
+    public String content;
 }
