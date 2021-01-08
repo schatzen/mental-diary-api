@@ -70,4 +70,37 @@ public class PostController {
         return responseService.getListResult(postList);
     }
 
+    // 게시글 수정
+    @PutMapping(value = "/{categoryName}/{postIdx}/edit")
+    @ApiOperation(value = "게시글 수정", notes = "해당 글을 수정합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public SingleResult<Long> editPost(
+            @ApiParam(value = "카테고리 (free,therapy,tarot)") @PathVariable String categoryName,
+            @ApiParam(value = "게시글 고유번호", required = true) @PathVariable Long postIdx,
+            @ApiParam(required = true) @RequestBody PostParam vo
+    ) throws Exception {
+
+        PostVo postVo = postService.editPost(postIdx, vo);
+
+        return responseService.getSingleResult(postVo.getId());
+    }
+
+    // 게시글 삭제
+    @DeleteMapping(value = "/{categoryName}/{postIdx}/delete")
+    @ApiOperation(value = "게시글 삭제", notes = "해당 글을 삭제합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    public SingleResult<Long> deletePost(
+            @ApiParam(value = "카테고리 (free,therapy,tarot)") @PathVariable String categoryName,
+            @ApiParam(value = "게시글 고유번호", required = true) @PathVariable Long postIdx
+    ) throws Exception {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        postService.deletePost(postIdx);
+    }
+
+
 }

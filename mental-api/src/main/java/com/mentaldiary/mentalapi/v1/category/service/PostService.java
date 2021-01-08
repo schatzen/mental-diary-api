@@ -67,10 +67,19 @@ public class PostService {
         return postVoList;
     }
 
-    // 게시글 수정
-    public void editPost(Long postId, PostVo vo) {
 
+    public PostVo editPost(Long postIdx, PostParam postParam) throws Exception {
+        Post post = postRepo.findById(postIdx).orElseThrow(Exception::new);
+        post.setContent(postParam.getContent());
+        postRepo.save(post);
 
+        PostVo postVo = ModelMapperUtil.getModelMapper().map(post, PostVo.class);
+
+        return postVo;
     }
 
+    public void deletePost(Long postIdx) throws Exception{
+        Post post = postRepo.findById(postIdx).orElseThrow(Exception::new);
+        postRepo.delete(post);
+    }
 }
