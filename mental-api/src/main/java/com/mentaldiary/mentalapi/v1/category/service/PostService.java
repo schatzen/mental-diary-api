@@ -1,11 +1,11 @@
 package com.mentaldiary.mentalapi.v1.category.service;
 
+import com.mentaldiary.mentalapi.common.AuthUtil;
 import com.mentaldiary.mentalapi.entity.Category;
 import com.mentaldiary.mentalapi.entity.Post;
 import com.mentaldiary.mentalapi.entity.User;
 import com.mentaldiary.mentalapi.respository.CategoryRepo;
 import com.mentaldiary.mentalapi.respository.PostRepo;
-import com.mentaldiary.mentalapi.respository.UserRepo;
 import com.mentaldiary.mentalapi.utils.ModelMapperUtil;
 import com.mentaldiary.mentalapi.v1.category.vo.PostParam;
 import com.mentaldiary.mentalapi.v1.category.vo.PostVo;
@@ -22,12 +22,12 @@ public class PostService {
 
     private final CategoryRepo categoryRepo;
     private final PostRepo postRepo;
-    private final UserRepo userRepo;
+    private final AuthUtil authUtil;
 
     // 게시글 작성
-    public Post writePost(String email, String categoryName, PostParam vo) throws Exception {
+    public Post writePost(String categoryName, PostParam vo) throws Exception {
+        User user = authUtil.getLoginUser();
 
-        User user = userRepo.findByEmail(email).orElseThrow(Exception::new);
         Category category = categoryRepo.findByName(categoryName).orElseThrow(Exception::new);
 
         Post post = Post.builder()
@@ -70,6 +70,14 @@ public class PostService {
 
     public PostVo editPost(Long postIdx, PostParam postParam) throws Exception {
         Post post = postRepo.findById(postIdx).orElseThrow(Exception::new);
+
+        Long userIdx = authUtil.getUserIdx();
+        Long postUserIdx = post.getUser().getId();
+
+        if (userIdx != postUserIdx) {
+            throw new Exception("권한이 없습니다.");
+        }
+
         post.setContent(postParam.getContent());
         postRepo.save(post);
 
@@ -78,8 +86,16 @@ public class PostService {
         return postVo;
     }
 
-    public void deletePost(Long postIdx) throws Exception{
+    public void deletePost(Long postIdx) throws Exception {
         Post post = postRepo.findById(postIdx).orElseThrow(Exception::new);
+
+        Long userIdx = authUtil.getUserIdx();
+        Long postUserIdx = post.getUser().getId();
+
+        if (userIdx != postUserIdx) {
+            throw new Exception("권한이 없습니다.");
+        }
+
         postRepo.delete(post);
     }
 }

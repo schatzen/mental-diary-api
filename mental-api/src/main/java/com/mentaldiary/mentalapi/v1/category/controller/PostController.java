@@ -5,6 +5,7 @@ import com.mentaldiary.mentalapi.v1.category.service.PostService;
 import com.mentaldiary.mentalapi.v1.category.vo.PostParam;
 import com.mentaldiary.mentalapi.v1.category.vo.PostVo;
 import com.mentaldiary.mentalapi.v1.response.service.ResponseService;
+import com.mentaldiary.mentalapi.v1.response.vo.CommonResult;
 import com.mentaldiary.mentalapi.v1.response.vo.ListResult;
 import com.mentaldiary.mentalapi.v1.response.vo.SingleResult;
 import io.swagger.annotations.*;
@@ -33,11 +34,7 @@ public class PostController {
     public SingleResult<Long> writePost(
             @ApiParam(value = "카테고리 (free,therapy,tarot)", required = true) @PathVariable String categoryName,
             @ApiParam(required = true) @RequestBody PostParam vo) throws Exception {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        Post post = postService.writePost(email, categoryName, vo);
+        Post post = postService.writePost(categoryName, vo);
         return responseService.getSingleResult(post.getId());
     }
 
@@ -93,13 +90,14 @@ public class PostController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
-    public SingleResult<Long> deletePost(
+    public CommonResult deletePost(
             @ApiParam(value = "카테고리 (free,therapy,tarot)") @PathVariable String categoryName,
             @ApiParam(value = "게시글 고유번호", required = true) @PathVariable Long postIdx
     ) throws Exception {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         postService.deletePost(postIdx);
+
+        return responseService.getSuccessResult();
     }
 
 
