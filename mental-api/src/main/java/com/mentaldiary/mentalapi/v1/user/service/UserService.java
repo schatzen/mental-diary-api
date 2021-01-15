@@ -1,5 +1,6 @@
 package com.mentaldiary.mentalapi.v1.user.service;
 
+import com.mentaldiary.mentalapi.advice.exception.CUserNotFoundException;
 import com.mentaldiary.mentalapi.entity.User;
 import com.mentaldiary.mentalapi.advice.exception.SignExeption;
 import com.mentaldiary.mentalapi.respository.UserRepo;
@@ -53,18 +54,11 @@ public class UserService {
 
     public User signIn(SignUpVO signUpV0) throws Exception {
 
-        User user = userRepo.findByEmail(signUpV0.getEmail()).orElse(null);
-
-        if (null == user) {
-            throw new SignExeption("존재하지 않는 이메일 입니다.");
-        }
+        User user = userRepo.findByEmail(signUpV0.getEmail()).orElseThrow(CUserNotFoundException::new);
 
         if (!user.getPassword().matches(signUpV0.getPassword())) {
-            throw new SignExeption("잘못된 비밀번호입니다.");
+            throw new CUserNotFoundException();
         }
-
-        //UserVO userVO = ModelMapperUtil.getModelMapper().map(user, UserVO.class);
-
         return user;
     }
 }

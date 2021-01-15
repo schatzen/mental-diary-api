@@ -97,12 +97,6 @@ public class ResponseService {
         return result;
     }
 
-    public CommonResult getFailResult(CommonResult result) {
-        result.setSuccess(false);
-        result.setCode(CommonResponse.FAIL.getCode());
-        result.setMsg(CommonResponse.FAIL.getMsg());
-        return result;
-    }
 
     // Validation 통과 못한 결과 처리하는 메소드
     public ErrorResult getErrorResult(Map<String, String> map) {
