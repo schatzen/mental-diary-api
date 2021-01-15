@@ -61,9 +61,6 @@ dependencies {
 
 	// ModelMapper
 	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.0'
-
-	// Message Properties
-	implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
 }
 
 bootJar {

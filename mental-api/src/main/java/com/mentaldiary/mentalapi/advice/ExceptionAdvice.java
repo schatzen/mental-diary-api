@@ -2,7 +2,6 @@ package com.mentaldiary.mentalapi.advice;
 
 
 import com.mentaldiary.mentalapi.advice.exception.CEmailSignInFailedException;
-import com.mentaldiary.mentalapi.advice.exception.CUserNotFoundException;
 import com.mentaldiary.mentalapi.advice.exception.SignExeption;
 import com.mentaldiary.mentalapi.v1.response.service.ResponseService;
 import com.mentaldiary.mentalapi.v1.response.vo.CommonResult;
@@ -27,10 +26,11 @@ public class ExceptionAdvice {
 
     }
 
-    @ExceptionHandler(CUserNotFoundException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 응답결과에 HttpStatus 500 전달
+    @ExceptionHandler(SignExeption.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult userNotFoundException(HttpServletRequest request, SignExeption e) {
         return responseService.getFailResult();
     }
+
 
 }

@@ -1,6 +1,5 @@
 package com.mentaldiary.mentalapi.v1.user.controller;
 
-import com.mentaldiary.mentalapi.advice.exception.CUserNotFoundException;
 import com.mentaldiary.mentalapi.entity.User;
 import com.mentaldiary.mentalapi.advice.exception.SignExeption;
 import com.mentaldiary.mentalapi.security.JwtTokenProvider;
@@ -40,7 +39,7 @@ public class UserController {
 
         try {
             user = userService.signIn(signUpV0);
-        } catch (CUserNotFoundException e) {
+        } catch (SignExeption e) {
             return responseService.getFailResult(-1, e.getMessage());
         }
 
