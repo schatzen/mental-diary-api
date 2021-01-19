@@ -28,9 +28,6 @@ public class PostController {
     // 게시글 작성
     @PostMapping(value = "/{categoryName}/add")
     @ApiOperation(value = "게시글 작성", notes = "글을 작성합니다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     public SingleResult<Long> writePost(
             @ApiParam(value = "카테고리 (free,therapy,tarot)", required = true) @PathVariable String categoryName,
             @ApiParam(required = true) @RequestBody PostParam vo) throws Exception {
@@ -41,9 +38,6 @@ public class PostController {
     // 게시글 조회
     @GetMapping(value = "/{categoryName}/{postIdx}")
     @ApiOperation(value = "게시글 조회", notes = "해당 글을 조회합니다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     public SingleResult<PostVo> getPost(
             @ApiParam(value = "카테고리 (free,therapy,tarot)") @PathVariable String categoryName,
             @ApiParam(value = "게시글 고유번호", required = true) @PathVariable Long postIdx) throws Exception {
@@ -56,9 +50,6 @@ public class PostController {
     // 카테고리변 전체 게시글 조회
     @GetMapping(value = "/{categoryName}/list")
     @ApiOperation(value = "전체 게시글 조회", notes = "해당 카테고리의 모든 글을 조회합니다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     public ListResult<PostVo> getPostList(
             @ApiParam(value = "카테고리 (free,therapy,tarot)", required = true) @PathVariable String categoryName) throws Exception {
 
@@ -70,9 +61,6 @@ public class PostController {
     // 게시글 수정
     @PutMapping(value = "/{categoryName}/{postIdx}/edit")
     @ApiOperation(value = "게시글 수정", notes = "해당 글을 수정합니다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     public SingleResult<Long> editPost(
             @ApiParam(value = "카테고리 (free,therapy,tarot)") @PathVariable String categoryName,
             @ApiParam(value = "게시글 고유번호", required = true) @PathVariable Long postIdx,
@@ -87,9 +75,6 @@ public class PostController {
     // 게시글 삭제
     @DeleteMapping(value = "/{categoryName}/{postIdx}/delete")
     @ApiOperation(value = "게시글 삭제", notes = "해당 글을 삭제합니다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     public CommonResult deletePost(
             @ApiParam(value = "카테고리 (free,therapy,tarot)") @PathVariable String categoryName,
             @ApiParam(value = "게시글 고유번호", required = true) @PathVariable Long postIdx
