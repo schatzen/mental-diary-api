@@ -8,6 +8,7 @@ import com.mentaldiary.mentalapi.utils.ModelMapperUtil;
 import com.mentaldiary.mentalapi.v1.user.vo.SignUpVO;
 import com.mentaldiary.mentalapi.v1.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -21,13 +22,14 @@ import java.util.Map;
 public class UserService {
 
     private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
 
     // 회원가입
     public void signUp(SignUpVO vo) {
         userRepo.save(User.builder()
                 .email(vo.getEmail())
-                .password(vo.getPassword())
+                .password(passwordEncoder.encode(vo.getPassword()))
                 .birthdate(vo.getBirthdate())
                 .gender(vo.getGender())
                 .roles(Collections.singletonList("ROLE_USER"))
@@ -56,7 +58,7 @@ public class UserService {
 
         User user = userRepo.findByEmail(signUpV0.getEmail()).orElseThrow(CUserNotFoundException::new);
 
-        if (!user.getPassword().matches(signUpV0.getPassword())) {
+        if (!passwordEncoder.matches(signUpV0.getPassword(),user.getPassword())) {
             throw new CUserNotFoundException();
         }
         return user;
