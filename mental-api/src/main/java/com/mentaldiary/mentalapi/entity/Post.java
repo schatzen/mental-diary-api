@@ -4,6 +4,7 @@ import com.mentaldiary.mentalapi.entity.common.CommonDateEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Builder
@@ -37,6 +38,12 @@ public class Post extends CommonDateEntity {
     protected Category getBoard() {
         return category;
     }
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostComment> postCommments;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> postLikes;
 
     // 생성자
     public Post(User user, Category category, String content) {
